@@ -20,10 +20,12 @@ extern const std::map<LogLevel, std::string> levelToString;
 
 class Logger {
     static LogLevel logLevel;
+    static bool consoleMode;
 
-    static void log(const std::string &logLevel, const std::string message);
+    static void log(LogLevel logLevel, const std::string& message);
 
 public:
+    static void setConsoleMode(bool enable);
 
     template<typename... Args>
     static void info(const std::string &format, const Args &...args);
