@@ -7,10 +7,11 @@
 
 
 class Server {
+    unsigned short port;
 
 public:
-
-    Server(int port);
+    Server(unsigned short port);
+    ~Server();
     void run();
 };
 
