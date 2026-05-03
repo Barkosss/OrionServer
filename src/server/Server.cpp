@@ -4,12 +4,13 @@
 
 #include "Server.h"
 #include <boost/asio.hpp>
+#include "Router.h"
 #include "../session/Session.h"
 #include "../utils/logger/Logger.h"
 
 using tcp = boost::asio::ip::tcp;
 
-Server::Server(unsigned short port) : port(port) {}
+Server::Server(Router router, unsigned short port) : router(router), port(port) {}
 
 Server::~Server() {
 

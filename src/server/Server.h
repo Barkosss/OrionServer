@@ -5,12 +5,14 @@
 #ifndef MSLAUNCHER_SERVER_H
 #define MSLAUNCHER_SERVER_H
 
+#include "Router.h"
 
 class Server {
+    Router router;
     unsigned short port;
 
 public:
-    Server(unsigned short port);
+    Server(Router router, unsigned short port);
     ~Server();
     void run();
 };
