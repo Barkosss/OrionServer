@@ -1,17 +1,9 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.31.5)
 project(MSLauncher)
 
-if(DEFINED ENV{VCPKG_ROOT})
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-            CACHE STRING "Vcpkg toolchain file")
-else()
-    set(CMAKE_TOOLCHAIN_FILE "F:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
-            CACHE STRING "Vcpkg toolchain file")
-endif()
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(BOOST_DIR "F:/tools/vcpkg/installed/x64-windows")
+set(Boost_INCLUDE_DIR "${BOOST_DIR}/include")
+set(Boost_LIBRARY_DIR "${BOOST_DIR}/lib")
 
 add_executable(MSLauncher
         src/config/Config.cpp
