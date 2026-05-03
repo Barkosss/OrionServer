@@ -21,6 +21,7 @@ vcpkg_installed/
 vcpkg-manifest-install.log
 
 .idea
+.vscode
 
 CMakeLists.txt.user
 CMakeCache.txt
