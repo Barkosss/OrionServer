@@ -16,11 +16,6 @@ public:
     static void error(const std::string& msg);
     static void debug(const std::string& msg);
     
-    static void info(int val);
-    static void warning(int val);
-    static void error(int val);
-    static void debug(int val);
-    
     static void info(const char* msg);
     static void warning(const char* msg);
     static void error(const char* msg);
@@ -44,18 +39,6 @@ public:
     template<typename T>
     static void debug(const T& val) {
         debug(std::to_string(val));
-    }
-    
-    static void info(const std::string& text, int val) {
-        info(text + std::to_string(val));
-    }
-    
-    static void warning(const std::string& text, int val) {
-        warning(text + std::to_string(val));
-    }
-    
-    static void error(const std::string& text, int val) {
-        error(text + std::to_string(val));
     }
     
     static void info(const std::string& text, const std::string& val) {

@@ -33,11 +33,6 @@ void Logger::warning(const std::string& msg) { log("WARNING", msg); }
 void Logger::error(const std::string& msg) { log("ERROR", msg); }
 void Logger::debug(const std::string& msg) { log("DEBUG", msg); }
 
-void Logger::info(int val) { info(std::to_string(val)); }
-void Logger::warning(int val) { warning(std::to_string(val)); }
-void Logger::error(int val) { error(std::to_string(val)); }
-void Logger::debug(int val) { debug(std::to_string(val)); }
-
 void Logger::info(const char* msg) { info(std::string(msg)); }
 void Logger::warning(const char* msg) { warning(std::string(msg)); }
 void Logger::error(const char* msg) { error(std::string(msg)); }
