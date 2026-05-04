@@ -3,9 +3,10 @@
 //
 #include "Router.h"
 #include<string>
+#include <utility>
 
 void Router::addRoute(const std::string& path, HandlerFunction handler) {
-    routes[path] = handler;
+    routes[path] = std::move(handler);
 }
 
 HandlerFunction Router::getHandler(const std::string& path) const {
