@@ -39,3 +39,7 @@ void Logger::info(const char* msg) { info(std::string(msg)); }
 void Logger::warning(const char* msg) { warning(std::string(msg)); }
 void Logger::error(const char* msg) { error(std::string(msg)); }
 void Logger::debug(const char* msg) { debug(std::string(msg)); }
+
+std::string Logger::formatString(const std::string& format) {
+    return format;
+}
