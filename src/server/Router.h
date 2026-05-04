@@ -6,7 +6,7 @@
 #include<map>
 #include<string>
 #include <functional>
-#include <boost/beast/http.hpp>
+#include <boost/beast.hpp>
 
 namespace beast = boost::beast;
 namespace http = beast::http;
