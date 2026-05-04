@@ -12,7 +12,15 @@ add_executable(MSLauncher
         src/utils/logger/Logger.h
         src/main.cpp
         src/server/Server.cpp
-        src/server/Server.h)
+        src/server/Server.h
+        src/handlers/file_handler.cpp
+        src/handlers/file_handler.h
+        src/handlers/health_handler.cpp
+        src/handlers/health_handler.h
+        src/handlers/manifest_handler.cpp
+        src/handlers/manifest_handler.h
+        src/server/Router.cpp
+        src/server/Router.h)
 
 set_target_properties(MSLauncher PROPERTIES
     CXX_STANDARD 20
