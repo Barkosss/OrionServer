@@ -45,7 +45,7 @@ void Server::run() {
             std::string path = req.target();
             Logger::info("Request: ", req.method_string());
 
-            auto handler = router.getHandler(path);
+            auto handler = router.getHandler(req.method(), path);
 
             http::response<http::string_body> res;
 
@@ -57,7 +57,7 @@ void Server::run() {
                 res.set(http::field::content_type, "text/plain");
             }
 
-            // res.set(http::field::content_length, res.body().size());
+            res.set(http::field::content_length, std::to_string(res.body().size()));
             http::write(socket, res, ec);
 
             if (ec) {
