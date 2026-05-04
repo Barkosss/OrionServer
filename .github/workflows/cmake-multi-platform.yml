@@ -48,7 +48,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y cmake
 
-        sudo apt-get install -y libboost-all-dev
+        sudo apt-get install -y libboost-all-dev libboost-asio-d
       if: runner.os == 'Linux'
 
     - name: Install CMake (Windows)
@@ -58,7 +58,7 @@ jobs:
         cd vcpkg
         ./bootstrap-vcpkg.bat
         ./vcpkg integrate install
-        ./vcpkg install boost-system boost-filesystem boost-asio
+        ./vcpkg install boost-system boost-filesystem boost-asio boost-beast
       if: runner.os == 'Windows'
 
     - name: Set reusable strings
