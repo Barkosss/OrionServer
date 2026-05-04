@@ -14,6 +14,11 @@ add_executable(MSLauncher
         src/server/Server.cpp
         src/server/Server.h)
 
+set_target_properties(MSLauncher PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+)
+
 find_package(Boost REQUIRED COMPONENTS filesystem system asio)
 find_package(Threads REQUIRED)
 
