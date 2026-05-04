@@ -10,7 +10,12 @@ std::string Logger::getTimestamp() {
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
     struct tm time_info;
-    localtime_s(&time_info, &now_time);
+    
+    #ifdef _WIN32
+        localtime_s(&time_info, &now_time);
+    #else
+        localtime_r(&now_time, &time_info);
+    #endif
     
     std::ostringstream oss;
     oss << std::put_time(&time_info, "%Y-%m-%d %H:%M:%S");
