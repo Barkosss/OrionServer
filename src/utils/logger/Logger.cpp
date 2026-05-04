@@ -1,5 +1,11 @@
 #include "Logger.h"
 
+#ifdef _WIN32
+    #define LOCAL_TIME(time_info, now_time) localtime_s(&time_info, &now_time)
+#else
+    #define LOCAL_TIME(time_info, now_time) localtime_r(&now_time, &time_info)
+#endif
+
 bool Logger::consoleMode = true;
 
 void Logger::setConsoleMode(bool enable) {
@@ -9,13 +15,9 @@ void Logger::setConsoleMode(bool enable) {
 std::string Logger::getTimestamp() {
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-    struct tm time_info;
+    struct tm time_info{};
     
-    #ifdef _WIN32
-        localtime_s(&time_info, &now_time);
-    #else
-        localtime_r(&now_time, &time_info);
-    #endif
+    LOCAL_TIME(time_info, now_time);
     
     std::ostringstream oss;
     oss << std::put_time(&time_info, "%Y-%m-%d %H:%M:%S");

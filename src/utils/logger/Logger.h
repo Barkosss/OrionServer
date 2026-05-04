@@ -23,61 +23,58 @@ public:
     
     template<typename T>
     static void info(const T& val) {
-        info(std::to_string(val));
+        std::ostringstream oss;
+        oss << val;
+        info(oss.str());
     }
     
     template<typename T>
     static void warning(const T& val) {
-        warning(std::to_string(val));
+        std::ostringstream oss;
+        oss << val;
+        warning(oss.str());
     }
     
     template<typename T>
     static void error(const T& val) {
-        error(std::to_string(val));
+        std::ostringstream oss;
+        oss << val;
+        error(oss.str());
     }
     
     template<typename T>
     static void debug(const T& val) {
-        debug(std::to_string(val));
-    }
-    
-    static void info(const std::string& text, const std::string& val) {
-        info(text + val);
-    }
-    
-    static void warning(const std::string& text, const std::string& val) {
-        warning(text + val);
-    }
-    
-    static void error(const std::string& text, const std::string& val) {
-        error(text + val);
-    }
-    
-    static void info(const std::string& text, const char* val) {
-        info(text + std::string(val));
-    }
-    
-    static void warning(const std::string& text, const char* val) {
-        warning(text + std::string(val));
-    }
-    
-    static void error(const std::string& text, const char* val) {
-        error(text + std::string(val));
+        std::ostringstream oss;
+        oss << val;
+        debug(oss.str());
     }
     
     template<typename T>
     static void info(const std::string& text, const T& val) {
-        info(text + std::to_string(val));
+        std::ostringstream oss;
+        oss << text << val;
+        info(oss.str());
     }
     
     template<typename T>
     static void warning(const std::string& text, const T& val) {
-        warning(text + std::to_string(val));
+        std::ostringstream oss;
+        oss << text << val;
+        warning(oss.str());
     }
     
     template<typename T>
     static void error(const std::string& text, const T& val) {
-        error(text + std::to_string(val));
+        std::ostringstream oss;
+        oss << text << val;
+        error(oss.str());
+    }
+    
+    template<typename T>
+    static void debug(const std::string& text, const T& val) {
+        std::ostringstream oss;
+        oss << text << val;
+        debug(oss.str());
     }
 
 private:
