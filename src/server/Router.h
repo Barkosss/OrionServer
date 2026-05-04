@@ -13,7 +13,7 @@ namespace http = beast::http;
 
 using HttpRequest = http::request<http::string_body>;
 using HttpResponse = http::response<http::string_body>;
-using HandlerFunction = std::function<void(const HttpRequest&, const HttpResponse&)>;
+using HandlerFunction = std::function<void(const HttpRequest&, HttpResponse&)>;
 
 class Router {
     std::map<std::string, HandlerFunction> routes;
