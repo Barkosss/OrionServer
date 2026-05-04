@@ -1,46 +1,39 @@
-//
-// Created by Andrey Baryshev on 02.05.2026.
-//
-
 #include "Logger.h"
-#include <format>
-#include <iostream>
-#include <ostream>
 
-const std::map<LogLevel, std::string> levelToString{
-    {LogLevel::INFO, "INFO"},
-    {LogLevel::WARNING, "WARNING"},
-    {LogLevel::ERROR, "ERROR"},
-    {LogLevel::DEBUG, "DEBUG"},
-};
+bool Logger::consoleMode = true;
 
-LogLevel Logger::logLevel = LogLevel::INFO;
-bool Logger::consoleMode = false;
-
-void Logger::setConsoleMode(const bool enable) {
+void Logger::setConsoleMode(bool enable) {
     consoleMode = enable;
 }
 
-void Logger::log(LogLevel logLevel, const std::string& message) {
+std::string Logger::getTimestamp() {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    struct tm time_info;
+    localtime_s(&time_info, &now_time);
+    
+    std::ostringstream oss;
+    oss << std::put_time(&time_info, "%Y-%m-%d %H:%M:%S");
+    return oss.str();
+}
+
+void Logger::log(const std::string& level, const std::string& msg) {
     if (consoleMode) {
-        std::cout << "[" << levelToString.at(logLevel) << "] " << message << std::endl;
+        std::cout << "[" << getTimestamp() << "] [" << level << "] " << msg << std::endl;
     }
 }
 
-template<typename ...Args>
-void Logger::info(const std::string& format, const Args&... args) {
-    log(LogLevel::INFO, std::format(format, args...));
-}
+void Logger::info(const std::string& msg) { log("INFO", msg); }
+void Logger::warning(const std::string& msg) { log("WARNING", msg); }
+void Logger::error(const std::string& msg) { log("ERROR", msg); }
+void Logger::debug(const std::string& msg) { log("DEBUG", msg); }
 
-template<typename ...Args>
-void Logger::warning(const std::string& format, const Args&... args) {
-    log(LogLevel::WARNING, std::format(format, args...));
-}
-template<typename ...Args>
-void Logger::error(const std::string& format, const Args&... args) {
-    log(LogLevel::ERROR, std::format(format, args...));
-}
-template<typename ...Args>
-void Logger::debug(const std::string& format, const Args&... args) {
-    log(LogLevel::DEBUG, std::format(format, args...));
-}
+void Logger::info(int val) { info(std::to_string(val)); }
+void Logger::warning(int val) { warning(std::to_string(val)); }
+void Logger::error(int val) { error(std::to_string(val)); }
+void Logger::debug(int val) { debug(std::to_string(val)); }
+
+void Logger::info(const char* msg) { info(std::string(msg)); }
+void Logger::warning(const char* msg) { warning(std::string(msg)); }
+void Logger::error(const char* msg) { error(std::string(msg)); }
+void Logger::debug(const char* msg) { debug(std::string(msg)); }

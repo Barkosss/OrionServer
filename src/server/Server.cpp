@@ -3,37 +3,40 @@
 //
 
 #include "Server.h"
-#include <boost/asio.hpp>
-#include "Router.h"
-#include "../session/Session.h"
 #include "../utils/logger/Logger.h"
+#include <boost/asio.hpp>
 
-using tcp = boost::asio::ip::tcp;
+using boost::asio::ip::tcp;
 
-Server::Server(Router router, unsigned short port) : router(router), port(port) {}
+Server::Server(Router router, unsigned short port) : port(port) {
+    this->router = router;
+    this->port = port;
+    Logger::info("Server object created on port ", port);
+}
 
 Server::~Server() {
-
+    Logger::info("Server object destroyed");
 }
 
 void Server::run() {
     try {
-        boost::asio::io_context ioc{1};
-        tcp::acceptor acceptor{ioc, {boost::asio::ip::address_v4(), port}};
-        Logger::info(std::string("Server is running at port:") + std::to_string(port));
+        boost::asio::io_context io_context;
+        tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
+
+        Logger::info("Server listening on port ", port);
 
         while (true) {
-            tcp::socket socket{ioc};
+            tcp::socket socket(io_context);
             acceptor.accept(socket);
-            Logger::info(std::string("Accepted connection from ") + socket.remote_endpoint().address().to_string());
-            auto session = std::make_shared<Session>(std::move(socket));
-            session->start();
 
-            Logger::info("Accepted connection from {}", socket.remote_endpoint().address().to_string());
-            std::make_shared<Session>(std::move(socket))->start();
+            Logger::info("Client connected from ", socket.remote_endpoint().address().to_string());
+
+            std::string message = "Hello from MSLauncher!\n";
+            boost::system::error_code ignored_error;
+            boost::asio::write(socket, boost::asio::buffer(message), ignored_error);
         }
 
-    } catch (const std::exception &ex) {
-        Logger::error("Error occurred: {}", ex.what());
+    } catch (const std::exception& ex) {
+        Logger::error("Server error: ", ex.what());
     }
 }
