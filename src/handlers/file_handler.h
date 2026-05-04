@@ -5,4 +5,4 @@
 
 #include "../server/Router.h"
 
-void handleFile(const HttpRequest&, const HttpResponse&);
+void handleFile(const HttpRequest& req, HttpResponse& res);

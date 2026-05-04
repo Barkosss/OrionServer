@@ -4,6 +4,6 @@
 #include "manifest_handler.h"
 //#include<nlohman/json.hpp>
 
-void handleHealth(const HttpRequest&, const HttpResponse&) {
+void handleHealth(const HttpRequest& req, HttpResponse& res) {
     // ...
 }

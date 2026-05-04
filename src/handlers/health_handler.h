@@ -5,4 +5,4 @@
 
 #include "../server/Router.h"
 
-void handleHealth(const HttpRequest&, const HttpResponse&);
+void handleHealth(const HttpRequest& req, HttpResponse& res);
