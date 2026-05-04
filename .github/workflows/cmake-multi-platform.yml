@@ -49,14 +49,22 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y cmake
         cmake --version
+
+        sudo apt-get update
+        sudo apt-get install -y libboost-all-dev
       if: runner.os == 'Linux'
 
     # Windows
     - name: Install CMake (Windows)
       run: |
         choco install cmake.install -y
-        # Проверяем установленную версию (для отладки)
         cmake --version
+
+        git clone https://github.com/Microsoft/vcpkg.git
+        cd vcpkg
+        ./bootstrap-vcpkg.bat
+        ./vcpkg integrate install
+        ./vcpkg install boost-system boost-filesystem boost-thread boost-date-time boost-chrono
       if: runner.os == 'Windows'
 
     - name: Set reusable strings
