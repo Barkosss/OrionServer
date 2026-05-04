@@ -38,33 +38,27 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # === Download CMake ===
-    # Linux
     - name: Install CMake (Linux)
       run: |
         sudo apt-get update
-        sudo apt-get install -y ca-certificates gnupg wget
+        sudo apt-get install -y ca-certificates gpg wget
+
         wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-        echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+        echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
         sudo apt-get update
         sudo apt-get install -y cmake
-        cmake --version
 
-        sudo apt-get update
-        sudo apt-get install -y libboost-all-dev libboost-asio-dev
+        sudo apt-get install -y libboost-all-dev
       if: runner.os == 'Linux'
 
-    # Windows
     - name: Install CMake (Windows)
       run: |
         choco install cmake.install -y
-        cmake --version
-
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg
         ./bootstrap-vcpkg.bat
         ./vcpkg integrate install
-        ./vcpkg install boost-system boost-filesystem boost-thread boost-date-time boost-chrono boost-asio
+        ./vcpkg install boost-system boost-filesystem boost-asio
       if: runner.os == 'Windows'
 
     - name: Set reusable strings
@@ -73,13 +67,24 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - name: Configure CMake
+    - name: Configure CMake (Linux)
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
+      if: runner.os == 'Linux'
+
+    - name: Configure CMake (Windows)
+      run: >
+        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        -S ${{ github.workspace }}
+      if: runner.os == 'Windows'
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
