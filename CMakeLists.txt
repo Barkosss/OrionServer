@@ -28,6 +28,7 @@ set_target_properties(MSLauncher PROPERTIES
 )
 
 find_package(Boost REQUIRED COMPONENTS filesystem system asio)
+find_package(nlohmann_json 3.12.0 REQUIRED)
 find_package(Threads REQUIRED)
 
 target_link_libraries(MSLauncher PRIVATE
@@ -36,6 +37,7 @@ target_link_libraries(MSLauncher PRIVATE
         Boost::asio
         Boost::filesystem
         Boost::system
+        nlohmann_json::nlohmann_json
 )
 
 target_compile_definitions(MSLauncher PRIVATE
