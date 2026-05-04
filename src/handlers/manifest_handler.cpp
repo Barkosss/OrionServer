@@ -4,14 +4,14 @@
 #include "manifest_handler.h"
 //#include<nlohman/json.hpp>
 
-void handleManifest(const HttpRequest&, const HttpResponse&) {
-    nlohmann::json json;
-    json["files"] = {
-        {"mods/example.jar", "hash12345"},
-        {"config/options.txt", "hash67890"}
-    };
+void handleManifest(const HttpRequest& req, HttpResponse& res) {
+    // nlohmann::json json;
+    // json["files"] = {
+    //     {"mods/example.jar", "hash12345"},
+    //     {"config/options.txt", "hash67890"}
+    // };
 
-    res.body() = json.dump();
+    // res.body() = json.dump();
     res.set(http::field::content_type, "application/json");
     res.result(http::status::ok);
 }

@@ -7,16 +7,18 @@
 
 #include "server/Router.h"
 #include "server/Server.h"
+#include "./handlers/manifest_handler.h"
+#include "./handlers/health_handler.h"
+#include "./handlers/file_handler.h"
 
 int main() {
 
     try {
         Router router;
 
-        router.addRoute("/manifest", nullptr);
-        router.addRoute("/file", nullptr);
-        router.addRoute("filelist", nullptr);
-        router.addRoute("health", nullptr);
+        router.addRoute("/manifest", handleManifest);
+        router.addRoute("/file", handleFile);
+        router.addRoute("/health", handleHealth);
 
         Server server(router, 8080);
         server.run();
