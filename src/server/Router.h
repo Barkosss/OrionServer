@@ -16,9 +16,9 @@ using HttpResponse = http::response<http::string_body>;
 using HandlerFunction = std::function<void(const HttpRequest&, HttpResponse&)>;
 
 class Router {
-    std::map<std::string, HandlerFunction> routes;
+    std::map<std::string, std::map<http::verb, HandlerFunction>> routes;
 
 public:
-    void addRoute(const std::string &path, HandlerFunction handler);
-    HandlerFunction getHandler(const std::string &path) const;
+    void addRoute(const http::verb method, const std::string &path, HandlerFunction handler);
+    HandlerFunction getHandler(const http::verb method, const std::string &path) const;
 };
