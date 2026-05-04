@@ -38,17 +38,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install CMake (Linux)
+    - name: Install CMake and vcpkg (Linux)
       run: |
         sudo apt-get update
-        sudo apt-get install -y ca-certificates gpg wget
+        sudo apt-get install -y ca-certificates gpg wget build-essential
 
         wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
         echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
         sudo apt-get update
         sudo apt-get install -y cmake
 
-        sudo apt-get install -y libboost-all-dev libboost-asio-d
+        git clone https://github.com/Microsoft/vcpkg.git
+        cd vcpkg
+        ./bootstrap-vcpkg.sh # Используем .sh для Linux
+        ./vcpkg integrate install
+        
+        ./vcpkg install boost-system boost-filesystem boost-asio boost-beast
       if: runner.os == 'Linux'
 
     - name: Install CMake (Windows)
