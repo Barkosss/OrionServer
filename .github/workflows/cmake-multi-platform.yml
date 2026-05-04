@@ -47,6 +47,27 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # === НОВЫЙ ШАГ: Установка новой версии CMake ===
+    - name: Install CMake 4.0+
+      run: |
+        # Удаляем старую версию CMake
+        sudo apt remove --purge -y cmake
+        # Загружаем и устанавливаем CMake 4.0.0
+        wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+        echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+        sudo apt-get update
+        sudo apt-get install -y cmake
+      if: runner.os == 'Linux'
+
+    # Для Windows можно использовать choco
+    - name: Install CMake 4.0+ (Windows)
+      run: |
+        choco uninstall cmake.install -y
+        choco install cmake.install -y --version=4.0.0
+      if: runner.os == 'Windows'
+      
+    # === КОНЕЦ НОВОГО ШАГА ===
+
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
@@ -70,6 +91,6 @@ jobs:
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
+      # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is also a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
