@@ -38,11 +38,14 @@ set_target_properties(MSLauncher PROPERTIES
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(Threads REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 target_link_libraries(MSLauncher PRIVATE
         ${Boost_LIBRARIES}
         Threads::Threads
         nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        OpenSSL::SSL
 )
 
 target_compile_definitions(MSLauncher PRIVATE
