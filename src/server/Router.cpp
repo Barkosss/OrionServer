@@ -3,16 +3,25 @@
 //
 #include "Router.h"
 #include<string>
-#include <utility>
+#include<utility>
+#include "../utils/logger/Logger.h"
 
-void Router::addRoute(const std::string& path, HandlerFunction handler) {
-    routes[path] = std::move(handler);
+void Router::addRoute(const http::verb method, const std::string& path, HandlerFunction handler) {
+    routes[path][method] = handler;
+    Logger::info("Route registered: {}/{}", method, path);
 }
 
-HandlerFunction Router::getHandler(const std::string& path) const {
-    auto it = routes.find(path);
-    if (it != routes.end()) {
-        return it->second;
+HandlerFunction Router::getHandler(const http::verb method, const std::string& path) const {
+    auto itPath = routes.find(path);
+    if (itPath == routes.end()) {
+        return nullptr;
     }
-    return nullptr;
+
+    const auto& methodMap = itPath->second;
+    auto itMethod = methodMap.find(method);
+    if (itMethod == methodMap.end()) {
+        return nullptr;
+    }
+
+    return itMethod->second;
 }

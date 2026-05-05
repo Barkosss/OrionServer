@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.31.5)
 project(MSLauncher)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 set(BOOST_DIR "F:/tools/vcpkg/installed/x64-windows")
 set(Boost_INCLUDE_DIR "${BOOST_DIR}/include")
 set(Boost_LIBRARY_DIR "${BOOST_DIR}/lib")
@@ -19,6 +23,10 @@ add_executable(MSLauncher
         src/handlers/health_handler.h
         src/handlers/manifest_handler.cpp
         src/handlers/manifest_handler.h
+        src/handlers/ping_handler.cpp
+        src/handlers/ping_handler.h
+        src/handlers/sync_handler.cpp
+        src/handlers/sync_handler.h
         src/server/Router.cpp
         src/server/Router.h)
 
@@ -27,15 +35,17 @@ set_target_properties(MSLauncher PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
-find_package(Boost REQUIRED COMPONENTS filesystem system asio)
+find_package(Boost REQUIRED COMPONENTS filesystem system)
+find_package(nlohmann_json 3.12.0 REQUIRED)
 find_package(Threads REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 target_link_libraries(MSLauncher PRIVATE
         ${Boost_LIBRARIES}
         Threads::Threads
-        Boost::asio
-        Boost::filesystem
-        Boost::system
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        OpenSSL::SSL
 )
 
 target_compile_definitions(MSLauncher PRIVATE
@@ -53,6 +63,12 @@ target_compile_definitions(MSLauncher PRIVATE
         _WIN32_WINNT=0x0A00
         BOOST_ALL_DYN_LINK
 )
+endif()
+
+if(UNIX AND NOT WIN32)
+    target_compile_definitions(MSLauncher PRIVATE
+        _GNU_SOURCE
+    )
 endif()
 
 message(STATUS "Boost version: ${Boost_VERSION}")

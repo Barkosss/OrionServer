@@ -10,15 +10,19 @@
 #include "./handlers/manifest_handler.h"
 #include "./handlers/health_handler.h"
 #include "./handlers/file_handler.h"
+#include "./handlers/ping_handler.h"
+#include "./handlers/sync_handler.h"
 
 int main() {
 
     try {
         Router router;
 
-        router.addRoute("/manifest", handleManifest);
-        router.addRoute("/file", handleFile);
-        router.addRoute("/health", handleHealth);
+        router.addRoute(http::verb::get, "/manifest", handleManifest);
+        router.addRoute(http::verb::get, "/file", handleFile);
+        router.addRoute(http::verb::get, "/health", handleHealth);
+        router.addRoute(http::verb::get, "/ping", handlePing);
+        router.addRoute(http::verb::get, "/sync", handleSync);
 
         Server server(router, 8080);
         server.run();
