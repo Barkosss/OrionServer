@@ -29,7 +29,7 @@ void Server::run() {
             tcp::socket socket(io_context);
             acceptor.accept(socket);
 
-            Logger::info("Client connected from ", socket.remote_endpoint().address().to_string());
+            Logger::info("Client connected from {}", socket.remote_endpoint().address().to_string());
 
             beast::flat_buffer buffer;
             http::request<http::string_body> req;
@@ -43,7 +43,7 @@ void Server::run() {
             }        
 
             std::string path = req.target();
-            Logger::info("Request: ", req.method_string());
+            Logger::info("Request: {}", req.method_string());
 
             auto handler = router.getHandler(req.method(), path);
 
@@ -68,6 +68,6 @@ void Server::run() {
         }
 
     } catch (const std::exception& ex) {
-        Logger::error("Server error: ", ex.what());
+        Logger::error("Server error: {}", ex.what());
     }
 }

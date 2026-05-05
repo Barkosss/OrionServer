@@ -1,5 +1,5 @@
 {
-    "mode": "allowlist",
+    "mode": "blocklist",
     "mods_directory": "./test_server/mods",
     "client_server": [],
     "client_only": [],

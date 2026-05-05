@@ -8,7 +8,7 @@
 
 void Router::addRoute(const http::verb method, const std::string& path, HandlerFunction handler) {
     routes[path][method] = handler;
-    Logger::info("Route registered: {} {}", method, path);
+    Logger::info("Route registered: {}/{}", method, path);
 }
 
 HandlerFunction Router::getHandler(const http::verb method, const std::string& path) const {

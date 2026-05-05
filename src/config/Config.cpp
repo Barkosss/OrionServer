@@ -26,7 +26,7 @@ void Config::loadFromFile(const string& filename) {
         std::ifstream configFile(filename);
 
         if (!configFile.is_open()) {
-            Logger::error("Config file not found: ", filename);
+            Logger::error("Config file not found: {}", filename);
             Logger::info("Using default configuration");
             return;
         }

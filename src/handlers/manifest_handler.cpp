@@ -20,7 +20,7 @@ void handleManifest(const HttpRequest& req, HttpResponse& res) {
         res.set(http::field::content_type, "application/json");
         res.result(http::status::ok);
     } catch (std::exception& ex) {
-        Logger::error("Failed to send response: ", ex.what());
+        Logger::error("Failed to send response: {}", ex.what());
     }
 }
 
@@ -39,9 +39,9 @@ nlohmann::json getFiles() {
                 std::filesystem::path relativePath = std::filesystem::relative(absolutePath, basePath);
 
                 path = relativePath.string();                
-                Logger::debug("Get relative path: ", path);
+                Logger::debug("Get relative path: {}", path);
             } catch (std::exception& ex) {
-                Logger::error("Failed to get relative path: ", ex.what());
+                Logger::error("Failed to get relative path: {}", ex.what());
                 continue;
             }
 
@@ -56,7 +56,7 @@ nlohmann::json getFiles() {
 
         return json;
     } catch (std::exception& ex) {
-        Logger::error("Failed to get files: ", ex.what());
+        Logger::error("Failed to get files: {}", ex.what());
         return nlohmann::json{
             {"files", {}},
         };

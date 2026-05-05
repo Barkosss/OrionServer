@@ -20,7 +20,7 @@ void handleFile(const HttpRequest& req, HttpResponse& res) {
         nlohmann::json jsonBody(req.body());
         vector<string> reqFiles;
         if (jsonBody.contains("files") && jsonBody["files"].is_array()) {
-            reqFiles = vector<string>(jsonBody["files"]);
+            jsonBody["files"].get_to(reqFiles);
         } else {
             res.body() = nlohmann::json({"error", "Request require list of filenames"}).dump();
             res.result(http::status::bad_request);
@@ -44,7 +44,7 @@ void handleFile(const HttpRequest& req, HttpResponse& res) {
         res.result(((isAll) ? (http::status::ok) : (http::status::partial_content)));
 
     } catch (std::exception& ex) {
-        Logger::error("Failed to send response: ", ex.what());
+        Logger::error("Failed to send response: {}", ex.what());
     }
 }
 
