@@ -53,7 +53,7 @@ jobs:
           ./bootstrap-vcpkg.sh # Используем .sh для Linux
           ./vcpkg integrate install
 
-          ./vcpkg install boost-system boost-filesystem boost-asio boost-beastn nlohmann-json
+          ./vcpkg install boost-system boost-filesystem boost-asio boost-beast nlohmann-json
         if: runner.os == 'Linux'
 
       - name: Install CMake (Windows)
@@ -78,8 +78,8 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -DCMAKE_C_COMPILER=${{
           matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace
-          }}/vcpkg/scripts/buildsystems/vcpkg.cmake # <-- Указываем toolchain
-          файл vcpkg -S ${{ github.workspace }}
+          }}/vcpkg/scripts/buildsystems/vcpkg.cmake файл vcpkg -S ${{
+          github.workspace }}
         if: runner.os == 'Linux'
 
       - name: Configure CMake (Windows)
@@ -88,8 +88,8 @@ jobs:
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -DCMAKE_C_COMPILER=${{
           matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace
-          }}/vcpkg/scripts/buildsystems/vcpkg.cmake # <-- Указываем toolchain
-          файл vcpkg -S ${{ github.workspace }}
+          }}/vcpkg/scripts/buildsystems/vcpkg.cmake файл vcpkg -S ${{
+          github.workspace }}
         if: runner.os == 'Windows'
 
       - name: Build
