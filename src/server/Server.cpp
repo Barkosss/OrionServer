@@ -11,7 +11,7 @@
 using boost::asio::ip::tcp;
 
 Server::Server(Router router, unsigned short port) : router(std::move(router)), port(port) {
-    Logger::info("Server object created on port ", port);
+    Logger::info("Server object created on port {}", port);
 }
 
 Server::~Server() {
@@ -23,7 +23,7 @@ void Server::run() {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), port));
 
-        Logger::info("Server listening on port ", port);
+        Logger::info("Server listening on port {}", port);
 
         while (true) {
             tcp::socket socket(io_context);
@@ -38,7 +38,7 @@ void Server::run() {
             http::read(socket, buffer, req, ec);
 
             if (ec) {
-                Logger::error("Failed to read request: ", ec.message());
+                Logger::error("Failed to read request: {}", ec.message());
                 continue;
             }        
 
@@ -61,7 +61,7 @@ void Server::run() {
             http::write(socket, res, ec);
 
             if (ec) {
-                Logger::error("Failed to send response: ", ec.message());
+                Logger::error("Failed to send response: {}", ec.message());
             }
 
             socket.shutdown(tcp::socket::shutdown_send, ec);
