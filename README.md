@@ -9,6 +9,7 @@
 - **Privacy** — No central entity sees all player activity
 - **Simple deployment** — Just run the binary next to your Minecraft server
 
+<!--
 ## Architecture
 
 ```
@@ -29,7 +30,7 @@
 └──────────────────────────►│  - downloads only diffs │
                             └─────────────────────────┘
 ```
-
+-->
 ## How It Works
 
 1. **Admin** places `mslauncher_backend` executable next to Minecraft server
