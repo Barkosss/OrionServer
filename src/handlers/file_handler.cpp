@@ -24,4 +24,3 @@ void handleFile(const HttpRequest& req, HttpResponse& res) {
 void getFileList(nlohmann::json reqFiles, std::vector<std::string> &files) {
     // TODO: Get list of file for send
 }
-
