@@ -35,7 +35,7 @@ set_target_properties(MSLauncher PROPERTIES
 )
 
 find_package(Boost REQUIRED COMPONENTS filesystem system)
-find_package(nlohmann_json 3.12.0 REQUIRED)
+find_package(nlohmann_json 3.11.3 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
