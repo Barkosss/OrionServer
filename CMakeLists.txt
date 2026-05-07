@@ -9,7 +9,8 @@ set(BOOST_DIR "F:/tools/vcpkg/installed/x64-windows")
 set(Boost_INCLUDE_DIR "${BOOST_DIR}/include")
 set(Boost_LIBRARY_DIR "${BOOST_DIR}/lib")
 
-add_executable(MSLauncher
+#add_executable(MSLauncher
+add_library(MSLauncher STATIC
         src/config/Config.cpp
         src/config/Config.h
         src/utils/logger/Logger.cpp
@@ -23,8 +24,6 @@ add_executable(MSLauncher
         src/handlers/health_handler.h
         src/handlers/manifest_handler.cpp
         src/handlers/manifest_handler.h
-        src/handlers/ping_handler.cpp
-        src/handlers/ping_handler.h
         src/handlers/sync_handler.cpp
         src/handlers/sync_handler.h
         src/server/Router.cpp
@@ -69,6 +68,16 @@ if(UNIX AND NOT WIN32)
     target_compile_definitions(MSLauncher PRIVATE
         _GNU_SOURCE
     )
+endif()
+
+# add_executable(MSLauncher src/main.cpp)
+# target_link_libraries(MSLauncher PRIVATE
+#     MSLauncher_lib
+# )
+
+option(BUILD_TESTS "Build tests" ON)
+if(BUILD_TESTS)
+    add_subdirectory(tests)
 endif()
 
 message(STATUS "Boost version: ${Boost_VERSION}")
