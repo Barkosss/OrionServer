@@ -1,4 +1,4 @@
-# MSLauncher Backend
+# MSBackend
 
 **Decentralized Minecraft launcher backend** — lightweight C++20 HTTP server that runs alongside your Minecraft server. Each server runs its own instance. Clients connect directly to the server's IP address. No central infrastructure required.
 
@@ -14,7 +14,7 @@
 
 ```
 ┌─────────────────┐         ┌─────────────────────────┐
-│  Minecraft      │         │  MSLauncher Backend     │
+│  Minecraft      │         │  MSBackend              │
 │  Server A       │◄───────►│  (port 8080)            │
 │  (with mods)    │         │  - serves /manifest     │
 └─────────────────┘         │  - filters files        │
@@ -33,7 +33,7 @@
 -->
 ## How It Works
 
-1. **Admin** places `mslauncher_backend` executable next to Minecraft server
+1. **Admin** places `MSBackend_backend` executable next to Minecraft server
 2. **Admin** configures `rules.json` (what files to send to clients)
 3. **Admin** runs the backend (e.g., on port 8080)
 4. **Client** launches their local launcher, enters Server IP:Port
@@ -123,7 +123,7 @@ security:
 logging:
   enabled: true
   level: info
-  log_file: ./mslauncher.log
+  log_file: ./MSBackend.log
   access_log: ./access.log
 ```
 
@@ -139,11 +139,21 @@ logging:
 | Rate limiting | Custom sliding window |
 | Build system | CMake |
 
+## Testing
+
+Project use unit-tests (GoogleTest) and integration tests.
+- **Config**: 12 tests (load, valid, filter)
+- **Router**: 8 tests (route, methods)
+- **Handlers**: 6 tests (manifest, sync)
+- **Integration**: 3 tests (HTTP request)
+
+Run: `ctest --output-on-failure`
+
 ## Build
 
 ```bash
-git clone https://github.com/yourname/MSLauncher-backend
-cd MSLauncher-backend
+git clone https://github.com/yourname/MSBackend
+cd MSBackend
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
@@ -163,13 +173,13 @@ cmake --build . --config Release
 ### On the Game Server (Linux)
 
 ```bash
-./mslauncher_backend --config ./config.yml
+./MSBackend_backend --config ./config.yml
 ```
 
 ### On the Game Server (Windows)
 
 ```cmd
-mslauncher_backend.exe --config config.yml
+MSBackend_backend.exe --config config.yml
 ```
 
 ### Client-Side Integration Example (Python launcher)
@@ -193,7 +203,7 @@ for file_info in manifest["files"]:
 
 ```
 /path/to/minecraft_server/
-├── mslauncher_backend           # executable
+├── MSBackend                    # executable
 ├── config.yml                   # backend config
 ├── rules.json                   # file filtering rules
 ├── mods/                        # server/client mods

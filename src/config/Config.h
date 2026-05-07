@@ -2,8 +2,8 @@
 // Created by Andrey Baryshev on 02.05.2026.
 //
 
-#ifndef MSLAUNCHER_CONFIG_H
-#define MSLAUNCHER_CONFIG_H
+#ifndef MSBackend_CONFIG_H
+#define MSBackend_CONFIG_H
 
 #include<map>
 #include<string>
@@ -58,4 +58,4 @@ public:
     bool shouldSendToClient(const std::string& filename) const;
 };
 
-#endif //MSLAUNCHER_CONFIG_H
+#endif //MSBackend_CONFIG_H

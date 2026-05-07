@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.31.5)
-project(MSLauncher)
+project(MSBackend)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,8 +9,8 @@ set(BOOST_DIR "F:/tools/vcpkg/installed/x64-windows")
 set(Boost_INCLUDE_DIR "${BOOST_DIR}/include")
 set(Boost_LIBRARY_DIR "${BOOST_DIR}/lib")
 
-#add_executable(MSLauncher
-add_library(MSLauncher STATIC
+#add_executable(MSBackend
+add_library(MSBackend STATIC
         src/config/Config.cpp
         src/config/Config.h
         src/utils/logger/Logger.cpp
@@ -29,7 +29,7 @@ add_library(MSLauncher STATIC
         src/server/Router.cpp
         src/server/Router.h)
 
-set_target_properties(MSLauncher PROPERTIES
+set_target_properties(MSBackend PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
@@ -39,7 +39,7 @@ find_package(nlohmann_json 3.11.3 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
-target_link_libraries(MSLauncher PRIVATE
+target_link_libraries(MSBackend PRIVATE
         ${Boost_LIBRARIES}
         Threads::Threads
         nlohmann_json::nlohmann_json
@@ -47,32 +47,32 @@ target_link_libraries(MSLauncher PRIVATE
         OpenSSL::SSL
 )
 
-target_compile_definitions(MSLauncher PRIVATE
+target_compile_definitions(MSBackend PRIVATE
         BOOST_ASIO_HAS_CO_AWAIT
         BOOST_ASIO_NO_DEPRECATED
 )
 
-target_include_directories(MSLauncher PRIVATE
+target_include_directories(MSBackend PRIVATE
         ${Boost_INCLUDE_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 if(WIN32)
-target_compile_definitions(MSLauncher PRIVATE
+target_compile_definitions(MSBackend PRIVATE
         _WIN32_WINNT=0x0A00
         BOOST_ALL_DYN_LINK
 )
 endif()
 
 if(UNIX AND NOT WIN32)
-    target_compile_definitions(MSLauncher PRIVATE
+    target_compile_definitions(MSBackend PRIVATE
         _GNU_SOURCE
     )
 endif()
 
-# add_executable(MSLauncher src/main.cpp)
-# target_link_libraries(MSLauncher PRIVATE
-#     MSLauncher_lib
+# add_executable(MSBackend src/main.cpp)
+# target_link_libraries(MSBackend PRIVATE
+#     MSBackend_lib
 # )
 
 option(BUILD_TESTS "Build tests" ON)

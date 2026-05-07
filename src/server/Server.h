@@ -2,8 +2,8 @@
 // Created by Andrey Baryshev on 03.05.2026.
 //
 
-#ifndef MSLAUNCHER_SERVER_H
-#define MSLAUNCHER_SERVER_H
+#ifndef MSBackend_SERVER_H
+#define MSBackend_SERVER_H
 
 #include "Router.h"
 
@@ -18,4 +18,4 @@ public:
 };
 
 
-#endif //MSLAUNCHER_SERVER_H
+#endif //MSBackend_SERVER_H
