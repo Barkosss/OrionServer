@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from aiohttp import ClientSession
 
-def manifest() -> None:
+async def manifest() -> None:
     """
     Docstring for sync
     
@@ -11,6 +11,7 @@ def manifest() -> None:
     :type files: list[str]
     """
     async with ClientSession() as client:
+        pass
 
 def health() -> None:
     """
