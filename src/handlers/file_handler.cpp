@@ -18,7 +18,7 @@ void handleFile(const HttpRequest& req, HttpResponse& res) {
         if (!request.contains("files") || !request["files"].is_array()) {
             Logger::error("Invalid request: missing or invalid 'files' field");
             res.result(http::status::bad_request);
-            res.body() = R"({"error": "Missing or invalid 'files' field"})";
+            res.body() = nlohmann::json::parse({"error", "Missing or invalid 'files' field"});
             res.set(http::field::content_type, "application/json");
             return;
         }
@@ -28,7 +28,7 @@ void handleFile(const HttpRequest& req, HttpResponse& res) {
         if (files.empty()) {
             Logger::warning("Empty file list requested");
             res.result(http::status::bad_request);
-            res.body() = R"({"error": "Empty file list"})";
+            res.body() = nlohmann::json::parse({"error", "Empty file list"});
             res.set(http::field::content_type, "application/json");
             return;
         }
