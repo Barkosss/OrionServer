@@ -10,7 +10,6 @@
 #include "./handlers/manifest_handler.h"
 #include "./handlers/health_handler.h"
 #include "./handlers/file_handler.h"
-#include "./handlers/ping_handler.h"
 #include "./handlers/sync_handler.h"
 
 int main() {
