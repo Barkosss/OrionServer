@@ -8,6 +8,8 @@
 #include<nlohmann/json.hpp>
 #include "../utils/logger/Logger.h"
 
+namespace fs = std::filesystem;
+
 Config::Config() : mode(ConfigMode::AllowList) {
     loadFromFile("config.json");    
 }
@@ -51,6 +53,14 @@ void Config::loadFromFile(const string& filename) {
 
         if (json.contains("mods_directory")) {
             mods_directory = json["mods_directory"];
+            
+            fs::path modsPath(mods_directory);
+            if (modsPath.is_relative()) {
+                fs::path exePath = fs::current_path();
+                modsPath = exePath / modsPath;
+                mods_directory = modsPath.string();
+                Logger::debug("Resolved mods directory to: {}", mods_directory);
+            }
         }
 
         if (json.contains("client_server") && json["client_server"].is_array()) {
@@ -77,10 +87,10 @@ void Config::loadFromFile(const string& filename) {
             }
         }
 
-        Logger::info("Config loaded successfully from: ", filename);
+        Logger::info("Config loaded successfully from: {}", filename);
 
     } catch (const nlohmann::json::exception& ex) {
-        Logger::error("Failed to parse config file: ", ex.what());
+        Logger::error("Failed to parse config file: {}", ex.what());
     }
 }
 
@@ -92,17 +102,17 @@ bool Config::shouldSendToClient(const std::string& filename) const {
 
     if (mode == ConfigMode::AllowList) {
         Logger::debug("AllowList:");
-        Logger::debug("filename: ", filename);
-        Logger::debug("client_only: ", client_only_files.find(filename) != client_only_files.end());
-        Logger::debug("client_server: ", client_server_files.find(filename) != client_server_files.end());
+        Logger::debug("filename: {}", filename);
+        Logger::debug("client_only: {}", client_only_files.find(filename) != client_only_files.end());
+        Logger::debug("client_server: {}", client_server_files.find(filename) != client_server_files.end());
         
         // AllowList: Send client/client+server files
         return (client_only_files.find(filename) != client_only_files.end()) ||
                 (client_server_files.find(filename) != client_server_files.end());
     } else {
         Logger::debug("BlockList:");
-        Logger::debug("filename: ", filename);
-        Logger::debug("server_only: ", server_only_files.find(filename) == server_only_files.end());
+        Logger::debug("filename: {}", filename);
+        Logger::debug("server_only: {}", server_only_files.find(filename) == server_only_files.end());
         
         // BlockList: Send all, except server files
         return (server_only_files.find(filename) == server_only_files.end());
