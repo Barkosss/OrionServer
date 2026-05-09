@@ -35,4 +35,13 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+
 test_server
+.venv
+
+# Example client: Python
+example_client/python/mods
+example_client/python/__pycache__
+example_client/python/.mypy_cache
+example_client/python/.pytest_cache
+example_client/python/tests/__pycache__
