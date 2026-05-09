@@ -9,8 +9,7 @@ set(BOOST_DIR "F:/tools/vcpkg/installed/x64-windows")
 set(Boost_INCLUDE_DIR "${BOOST_DIR}/include")
 set(Boost_LIBRARY_DIR "${BOOST_DIR}/lib")
 
-#add_executable(MSBackend
-add_library(MSBackend STATIC
+add_executable(MSBackend
         src/config/Config.cpp
         src/config/Config.h
         src/utils/logger/Logger.cpp
@@ -68,16 +67,6 @@ if(UNIX AND NOT WIN32)
     target_compile_definitions(MSBackend PRIVATE
         _GNU_SOURCE
     )
-endif()
-
-# add_executable(MSBackend src/main.cpp)
-# target_link_libraries(MSBackend PRIVATE
-#     MSBackend_lib
-# )
-
-option(BUILD_TESTS "Build tests" ON)
-if(BUILD_TESTS)
-    add_subdirectory(tests)
 endif()
 
 message(STATUS "Boost version: ${Boost_VERSION}")
