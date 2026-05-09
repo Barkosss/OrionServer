@@ -71,7 +71,7 @@ std::string getFileHash(const std::string& filename) {
 
     std::ifstream file(fullPath, std::ios::binary);
     if (!file.is_open()) {
-        Logger::error("Failed to open file: ", fullPath);
+        Logger::error("Failed to open file: {}", fullPath);
         return "";
     }
 

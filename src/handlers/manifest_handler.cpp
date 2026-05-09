@@ -34,7 +34,7 @@ nlohmann::json getFiles() {
         for (const auto& entry : iterFiles) {
             try {                
                 std::filesystem::path absolutePath = entry.path();
-                Logger::debug("Get absolute path: ", absolutePath);
+                Logger::debug("Get absolute path: {}", absolutePath);
                 std::filesystem::path basePath = modDir;
                 std::filesystem::path relativePath = std::filesystem::relative(absolutePath, basePath);
 
