@@ -49,7 +49,7 @@ void handleFile(const HttpRequest& req, HttpResponse& res) {
             zipCmd.pop_back();
             zipCmd += " -DestinationPath " + zipFilename + "\"";
         #else
-            zipCmd = "cd " + modsDir + " && zip -j " + zipPath;
+            zipCmd = "cd " + modsDir + " && zip -j " + zipFilename;
             for (auto& file : files) {
                 zipCmd += " \"" + file.get<std::string>() + "\"";
             }
