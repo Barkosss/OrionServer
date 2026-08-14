@@ -1,6 +1,6 @@
-# MSLauncher Backend
+# OrionServer
 
-**Decentralized Minecraft launcher backend** — lightweight C++20 HTTP server that runs alongside your Minecraft server. Each server runs its own instance. Clients connect directly to the server's IP address. No central infrastructure required.
+**Decentralized Minecraft launcher server** — lightweight C++20 HTTP server that runs alongside your Minecraft server. Each server runs its own instance. Clients connect directly to the server's IP address. No central infrastructure required.
 
 ## Why Decentralized?
 
@@ -193,7 +193,7 @@ for file_info in manifest["files"]:
 
 ```
 /path/to/minecraft_server/
-├── mslauncher_backend           # executable
+├── orionserver                  # executable
 ├── config.yml                   # backend config
 ├── rules.json                   # file filtering rules
 ├── mods/                        # server/client mods
